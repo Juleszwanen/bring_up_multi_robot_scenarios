@@ -50,6 +50,27 @@
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
 
+  <!-- Runtime dependencies for launch files -->
+  <!-- Core ROS packages -->
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>tf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <!-- Jackal packages -->
+  <exec_depend>jackal_description</exec_depend>
+  <exec_depend>jackal_control</exec_depend>
+  <exec_depend>jackal_gazebo</exec_depend>
+  <exec_depend>mobile_robot_state_publisher</exec_depend>
+
+  <!-- Planning and navigation -->
+  <exec_depend>roadmap</exec_depend>
+  <exec_depend>mpc_planner_jackalsimulator</exec_depend>
+  <exec_depend>guidance_planner_multi_robot_nodes</exec_depend>
+
+  <!-- Visualization and tools -->
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>rqt_reconfigure</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

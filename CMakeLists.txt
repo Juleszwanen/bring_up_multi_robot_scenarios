@@ -7,7 +7,21 @@ project(bring_up_multi_robot_scenarios)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+  gazebo_ros
+  robot_state_publisher
+  tf
+  xacro
+  jackal_description
+  jackal_control
+  jackal_gazebo
+  mobile_robot_state_publisher
+  roadmap
+  mpc_planner_jackalsimulator
+  guidance_planner_multi_robot_nodes
+  rviz
+  rqt_reconfigure
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
