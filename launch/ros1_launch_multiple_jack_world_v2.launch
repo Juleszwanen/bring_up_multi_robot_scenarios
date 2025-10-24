@@ -1,0 +1,49 @@
+
+<launch>
+  <!-- 1) bring up Gazebo once -->
+  <arg name="use_sim_time"  default="true" />
+  <arg name="gui"           default="false" />
+  <arg name="project_name"  default="" />
+  <arg name="headless"      default="true" />
+  <arg name="server_required" default="true"/>
+  <!-- <arg name="world_name" default="$(find jackal_gazebo)/worlds/corridor.world" /> -->
+  <!-- <arg name="world_name" default="$(find jackal_gazebo)/worlds/static_obstacles.world" /> -->
+  <arg name="world_name"    default="$(find jackal_gazebo)/worlds/decomp.world" />
+
+  <!-- Optionally enable teleop for the simulation -->
+  <arg name="joystick" default="false" />
+
+  <!-- Launch Gazebo with the specified world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused"       value="false"/>
+    <arg name="debug"        value="0" />
+    <arg name="gui"          value="$(arg gui)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+    <arg name="headless"     value="$(arg headless)" />
+    <arg name="world_name"   value="$(arg world_name)" />
+    
+  </include>
+
+  <!-- 2) now drop in all your robots -->
+  <!-- Option 1: Regular multi-robot scenario -->
+  <!-- <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_multiple_jackal_v2.launch">
+    <arg name="joystick" value="$(arg joystick)"/>
+  </include> -->
+  
+  <!-- Option 2: Robot exchange scenario -->
+  <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_robot_exchange_scenario.launch">
+    <arg name="joystick" value="$(arg joystick)"/>
+  </include>
+
+  <!-- Option 3: Robot exchange scenario with a non communicating robot driving around -->
+  <!-- <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_robot_exchange_with_cv_scenario.launch">
+    <arg name="joystick" value="$(arg joystick)"/>
+  </include> -->
+  
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bring_up_multi_robot_scenarios)/rviz/ros1_multi_robot.rviz" />
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="" output="screen"/> -->
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mpc_planner_jackalsimulator)/rviz/ros1_3d.rviz" output="screen"/> -->
+
+  <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_reconfigure" output="log"/>
+</launch>

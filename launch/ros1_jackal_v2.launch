@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- 1) Receive the tf_prefix arg from above. -->
+  <arg name="tf_prefix"         default=""/>
+  <arg name="var_jackal_name"   default="jackalX"/>
+  <arg name="x"                 default="0"/>
+  <arg name="y"                 default="0"/>
+  <arg name="z"                 default="1"/>
+  <arg name="yaw"               default="0"/>
+  <arg name="joystick"          default="false"/>
+  <arg name="env_runner"        default="$(eval 'env_run' if not optenv('OS','unknown').lower().startswith('windows') else 'env_run.bat')" />
+
+  <!-- 2) Compute the frames under that prefix -->
+  <arg name="model_name"    default="$(arg var_jackal_name)"/>
+  <arg name="roadmap_map"   default="maps/open_space/24.xml"/>
+
+  <!-- Spawn Jackal in Gazebo, e.g. jackal_Robot1 -->
+  <node name="node_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf
+              -model $(arg model_name)
+              -param robot_description
+              -x $(arg x)
+              -y $(arg y)
+              -z $(arg z)
+              -R 0 -P 0 -Y $(arg yaw)" />
+              
+              <!-- -param /$(arg var_jackal_name)/robot_description -->
+<!-- -robot_namespace robot_ns_(arg var_jackal_name) -->
+
+  <!-- Publish the URDF → link TF (robot_state_publisher) -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <!-- **Here** we set tf_prefix as a ROS param so this node actually prefixes all of its TFs -->
+    <param name="tf_prefix" value="$(arg tf_prefix)"/>
+  </node>
+
+  <!-- Your other control/teleop includes… -->
+  <include file="$(find jackal_control)/launch/control.launch" />
+  <include file="$(find jackal_control)/launch/teleop.launch">
+    <arg name="joystick" value="$(arg joystick)" />
+  </include>
+
+  <node name="static_tf0" pkg="tf" type="static_transform_publisher" args="$(arg x) $(arg y) 0 $(arg yaw) 0 0 /map $(arg tf_prefix)/odom 100"/>
+  
+  <!-- 3) Finally, the mobile state publisher -->
+  <include file="$(find mobile_robot_state_publisher)/launch/mobile_robot_publisher_mr.launch">
+    <arg name="tf_prefix" value="$(arg tf_prefix)"/>
+    <arg name="var_jackal_name" value="$(arg var_jackal_name)"/>
+  </include>
+
+  
+  <include file="$(find roadmap)/launch/roadmap.launch">
+    <arg name="map_file_name" value="$(arg roadmap_map)"/>
+  </include>
+
+  <rosparam command="load" file="$(find mpc_planner_jackalsimulator)/config/guidance_planner.yaml"/>
+  <!-- <rosparam command="load" file="$(find scenario_module)/config/params.yaml"/> -->
+  
+  <node pkg="mpc_planner_jackalsimulator" type="jules_ros1_jackalplanner" name="jules_ros1_jackalplanner" required="false" respawn="false" output="screen">
+        <remap from="input/state_pose"      to="robot_state"/>
+        <remap from="input/goal"            to="move_base_simple/goal"/>
+        <remap from="input/reference_path"  to="roadmap/reference"/>
+        <!-- <remap from="input/obstacles"       to="input/obstacles"/>  -->
+        <remap from="input/obstacles"       to="input/trajectory_obstacles"/> 
+        <remap from="output/command"        to="cmd_vel"/>
+        <!-- <remap from="output/pose"           to="pedestrian_simulator/robot_state"/> -->
+        <remap from="feedback/collisions"   to="pedestrian_simulator/collision_detected"/>
+  </node>
+
+</launch>

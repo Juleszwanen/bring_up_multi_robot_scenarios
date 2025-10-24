@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Robot exchange scenario: robots start at opposite ends and cross paths -->
+  <arg name="joystick" default="false"/>
+  <arg name="config"    default="base"/>
+  <arg name="env_runner" default="$(eval 'env_run' if not optenv('OS','unknown').lower().startswith('windows') else 'env_run.bat')" />
+
+  <env name="ROSCONSOLE_CONFIG_FILE"
+                      value="$(find bring_up_multi_robot_scenarios)/config/custom_rosconsole.conf"/>
+
+  <!-- Robot 1 -->
+  <group ns="jackal1">
+    <!-- value WITHOUT leading slash; we add it when passing to xacro -->
+    <arg name="robot_ns" default="/jackal1"/>
+
+    <!-- Generate URDF from xacro, passing the namespace -->
+   <param name="robot_description"
+         command="$(find jackal_description)/scripts/$(arg env_runner)
+                  $(find jackal_description)/urdf/configs/$(arg config)
+                  $(find xacro)/xacro 
+                  $(find jackal_description)/urdf/jackal_with_param.urdf.xacro 
+                  'robot_namespace:=$(arg robot_ns)'
+                  "/>
+
+    <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_jackal_v2.launch">
+      <arg name="tf_prefix" value="jackal1_tf"/>
+      <arg name="var_jackal_name" value="jackal1"/>
+      <arg name="x" value="1"/>
+      <arg name="y" value="1"/>
+      <arg name="yaw" value="0.7854"/>
+      <arg name="roadmap_map" value="maps/open_space/robot_exchange.xml"/>
+      <arg name="joystick" value="$(arg joystick)"/>
+    </include>
+  </group>
+
+  <!-- Robot 2  "-2.356"-->
+  <group ns="jackal2">
+
+    <arg name="robot_ns" default="/jackal2" />
+    <param name="robot_description"
+         command="$(find jackal_description)/scripts/$(arg env_runner)
+                  $(find jackal_description)/urdf/configs/$(arg config)
+                  $(find xacro)/xacro 
+                  $(find jackal_description)/urdf/jackal_with_param.urdf.xacro 
+                  'robot_namespace:=$(arg robot_ns)'
+                  "/>
+
+    <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_jackal_v2.launch">
+      <arg name="tf_prefix" value="jackal2_tf"/>
+      <arg name="var_jackal_name" value="jackal2"/>
+      <arg name="x" value="7"/>
+      <arg name="y" value="7"/>
+      <arg name="yaw" value="3.92699"/>
+      <arg name="roadmap_map" value="maps/open_space/robot_exchange_reversed.xml"/>
+      <arg name="joystick" value="$(arg joystick)"/>
+    </include>
+  </group>
+
+  <!-- Robot 3: Starts at (-5, 5) and follow"-2.356"s perpendicular path (left to right) -->
+  <group ns="jackal3">
+    <arg name="robot_ns" default="/jackal3"/>
+
+    <param name="robot_description"
+         command="$(find jackal_description)/scripts/$(arg env_runner)
+                  $(find jackal_description)/urdf/configs/$(arg config)
+                  $(find xacro)/xacro 
+                  $(find jackal_description)/urdf/jackal_with_param.urdf.xacro 
+                  'robot_namespace:=$(arg robot_ns)'
+                  "/>
+
+    <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_jackal_v2.launch">
+      <arg name="tf_prefix" value="jackal3_tf"/>
+      <arg name="var_jackal_name" value="jackal3"/>
+      <arg name="x" value="0"/>
+      <arg name="y" value="5"/>
+      <arg name="yaw" value="0"/>  
+      <arg name="roadmap_map" value="maps/open_space/robot_perpendicular.xml"/>
+      <arg name="joystick" value="$(arg joystick)"/>
+    </include>
+  </group>
+
+
+  <!-- Central aggregator for multi-robot obstacle sharing -->
+  <!-- <rosparam param="robot_ns_list">['jackal1', 'jackal2']</rosparam> -->
+  <!-- <rosparam param="robot_ns_list">['/jackal1', '/jackal2']</rosparam> -->
+  <!-- <rosparam param="robot_ns_list">['/jackal1', '/jackal2', '/jackal3']</rosparam> -->
+  <rosparam command="load" file="$(find bring_up_multi_robot_scenarios)/config/multi_robot_settings.yaml"/>
+  <node name="central_aggregator" pkg="guidance_planner_multi_robot_nodes" type="central_aggregator" output="screen"/>
+
+  <!-- Disable synchronization for immediate startup -->  
+ 
+</launch>

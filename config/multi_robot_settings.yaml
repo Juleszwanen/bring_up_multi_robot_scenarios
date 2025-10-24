@@ -1,0 +1,6 @@
+# robot_ns_list: ["/jackal1", "/jackal2"]
+wait_for_sync: false
+frames/global: "map"
+goal_tolerance: 0.8
+# robot_ns_list: ["/jackal1", "/jackal2", "/jackal6"] # This one is when you want to use the CV robot
+robot_ns_list: ["/jackal1", "/jackal2", "/jackal3"] # This one is when you want three communicating robots

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- 1) Top‐level launch args, including tf_prefix -->
+  <arg name="config"    default="base"/>
+  <arg name="joystick"  default="false"/>
+  <arg name="env_runner"
+       default="$(eval 'env_run' if not optenv('OS','unknown').lower().startswith('windows') else 'env_run.bat')" />
+  <arg name="tf1_prefix" default="jackal1_tf"/>
+  <arg name="tf2_prefix" default="jackal2_tf"/>
+
+  <arg name="joystick_jackal_1" value="false" />
+  <!-- <arg name="tf3_prefix" default="robot3_tf"/> -->
+
+  <!-- URDF for all robots -->
+  
+
+  
+
+  <group ns="jackal1">    
+    <param name="robot_description"
+         command="$(find jackal_description)/scripts/$(arg env_runner)
+                  $(find jackal_description)/urdf/configs/$(arg config)
+                  $(find xacro)/xacro $(find jackal_description)/urdf/jackal_1.urdf.xacro 
+                  "/>
+
+    <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_jackal_v2.launch">
+      <arg name="var_jackal_name" value="jackal1"/>
+      <arg name="x"               value="0.5"/>
+      <arg name="y"               value="0"/>
+      <arg name="yaw"             value="0.785"/>
+      <arg name="joystick"        value="$(arg joystick_jackal_1)"/>
+      <arg name="tf_prefix"       value="$(arg tf1_prefix)"/>
+      <arg name="roadmap_map"     value="maps/open_space/24.xml"/>
+
+    </include>
+  </group>
+  
+
+   <group ns="jackal2">
+    <param name="robot_description"
+         command="$(find jackal_description)/scripts/$(arg env_runner)
+                  $(find jackal_description)/urdf/configs/$(arg config)
+                  $(find xacro)/xacro $(find jackal_description)/urdf/jackal_2.urdf.xacro 
+                  "/>
+
+    <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_jackal_v2.launch">
+      <arg name="var_jackal_name" value="jackal2"/>
+      <arg name="x"               value="-1"/>
+      <arg name="y"               value="0"/>
+      <arg name="yaw"             value="0"/>
+      <arg name="joystick"        value="$(arg joystick)"/>
+      <arg name="tf_prefix"       value="$(arg tf2_prefix)"/>
+      <arg name="roadmap_map"     value="maps/open_space/24.xml"/>
+      </include>
+    </group>
+
+  <!-- The central aggregator is a node which gathers all robot data and redistributes the aggregated data correctly to each robot -->
+  <rosparam param="/robot_ns_list">["jackal1", "jackal2"]</rosparam>
+    <node pkg="guidance_planner_multi_robot_nodes" type="central_aggregator" name="central_aggregator" output="screen" respawn="false" >                        
+  </node>
+
+  <!-- Disable synchronization for immediate startup -->  
+  <param name="wait_for_sync" value="true" type="bool"/>
+</launch>
