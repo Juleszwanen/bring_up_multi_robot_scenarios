@@ -1,6 +1,21 @@
-# robot_ns_list: ["/jackal1", "/jackal2"]
 wait_for_sync: false
 frames/global: "map"
-goal_tolerance: 0.8
+# goal_tolerance: 0.8
 # robot_ns_list: ["/jackal1", "/jackal2", "/jackal6"] # This one is when you want to use the CV robot
-robot_ns_list: ["/jackal1", "/jackal2", "/jackal3"] # This one is when you want three communicating robots
+# robot_ns_list: ["/jackal1", "/jackal2", "/jackal3"] # This one is when you want three communicating robots
+robot_ns_list: ["/jackal1", "/jackal2"] # This one is when you want three communicating robots
+
+/jackal1:
+    network:
+        publisher_end_point: "tcp://192.168.0.99:3001"   
+/jackal2:
+    network:
+        publisher_end_point: "tcp://192.168.0.99:3002"   
+# /jackal3:
+#     network:
+#         publisher_end_point: "tcp://192.168.0.99:3003"
+/central_aggregator:
+    network:
+        publisher_end_point: "tcp://192.168.0.99:3009"
+
+    
