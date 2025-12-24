@@ -6,22 +6,21 @@ Panels:
       Expanded:
         - /Status1
         - /Jackal1_Planner1
+        - /Jackal1_Planner1/Jules_topology_matching info1
         - /Jackal1_Planner1/T-MPC1
         - /Jackal1_Planner1/T-MPC1/Graph1
-        - /Jackal1_Planner1/T-MPC1/Optimized Trajectories1
         - /Lab1/Robot1/Shape1
         - /Jackal1_Odometry1/Shape1
         - /Jackal2_Planner1
         - /Jackal2_Planner1/Reference Path Points1
-        - /Jackal2_Planner1/T-MPC1
         - /Jackal2_Planner1/T-MPC1/Graph1
         - /Jackal2_Planner1/T-MPC1/Guidance Trajectories1
+        - /Jackal3_Planner1
         - /Jackal3_Planner1/Reference Path1
-        - /Jackal3_Planner1/Planner Obstacle Predictions1
+        - /Jackal3_Planner1/T-MPC1
         - /Jackal3_Planner1/T-MPC1/Guidance Trajectories1
-        - /Jackal3_Planner1/T-MPC1/Optimized Trajectories1
-      Splitter Ratio: 0.3103448152542114
-    Tree Height: 720
+      Splitter Ratio: 0.47934919595718384
+    Tree Height: 658
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -176,13 +175,13 @@ Visualization Manager:
           Queue Size: 100
           Value: false
         - Class: rviz/MarkerArray
-          Enabled: false
+          Enabled: true
           Marker Topic: /jackal1/jules_ros1_jackalplanner/contouring/path
           Name: Reference Path
           Namespaces:
-            {}
+            "": true
           Queue Size: 100
-          Value: false
+          Value: true
         - Class: rviz/MarkerArray
           Enabled: false
           Marker Topic: /jackalsimulator_planner/contouring/points
@@ -200,13 +199,29 @@ Visualization Manager:
           Queue Size: 100
           Value: false
         - Class: rviz/MarkerArray
+          Enabled: false
+          Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_constraints/consistency_reference
+          Name: consistency_reference
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: false
+        - Class: rviz/MarkerArray
           Enabled: true
-          Marker Topic: /jackal1/jules_ros1_jackalplanner/obstacle_predictions
-          Name: Planner Obstacle Predictions
+          Marker Topic: /jackal1/jules_ros1_jackalplanner/obstacle_prediction_lines
+          Name: Planner Obstacle Prediction Lines
           Namespaces:
             "": true
           Queue Size: 100
           Value: true
+        - Class: rviz/MarkerArray
+          Enabled: false
+          Marker Topic: /jackal1/jules_ros1_jackalplanner/obstacle_predictions
+          Name: Planner Obstacle Predictions
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: false
         - Class: rviz/MarkerArray
           Enabled: false
           Marker Topic: /jackal1/jules_ros1_jackalplanner/contouring/road_boundary_constraints
@@ -215,6 +230,42 @@ Visualization Manager:
             {}
           Queue Size: 100
           Value: false
+        - Class: rviz/Group
+          Displays:
+            - Class: rviz/MarkerArray
+              Enabled: true
+              Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_constraints/all_topologies_labeled
+              Name: all_topologies_labeled
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+            - Class: rviz/MarkerArray
+              Enabled: true
+              Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_constraints/topology_mismatch
+              Name: topology_mismatch
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+            - Class: rviz/MarkerArray
+              Enabled: true
+              Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_constraints/matched_topology
+              Name: matched_topology
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+            - Class: rviz/MarkerArray
+              Enabled: true
+              Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_constraints/mpc_geometric_path
+              Name: mpc_geometric_path
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+          Enabled: false
+          Name: Jules_topology_matching info
         - Class: rviz/Group
           Displays:
             - Class: rviz/MarkerArray
@@ -242,13 +293,13 @@ Visualization Manager:
               Queue Size: 100
               Value: false
             - Class: rviz/MarkerArray
-              Enabled: true
+              Enabled: false
               Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_planner/trajectories
               Name: Guidance Trajectories
               Namespaces:
-                "": true
+                {}
               Queue Size: 100
-              Value: true
+              Value: false
             - Class: rviz/MarkerArray
               Enabled: false
               Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_planner/obstacles_3d
@@ -266,13 +317,13 @@ Visualization Manager:
               Queue Size: 100
               Value: false
             - Class: rviz/MarkerArray
-              Enabled: false
+              Enabled: true
               Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_constraints/optimized_trajectories
               Name: Optimized Trajectories
               Namespaces:
-                {}
+                "": true
               Queue Size: 100
-              Value: false
+              Value: true
             - Class: rviz/MarkerArray
               Enabled: false
               Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_planner/homology
@@ -282,13 +333,13 @@ Visualization Manager:
               Queue Size: 100
               Value: false
             - Class: rviz/MarkerArray
-              Enabled: true
+              Enabled: false
               Marker Topic: /jackal1/jules_ros1_jackalplanner/guidance_constraints/non_guided_markers
               Name: non_guided_standout
               Namespaces:
-                "": true
+                {}
               Queue Size: 100
-              Value: true
+              Value: false
           Enabled: true
           Name: T-MPC
         - Class: rviz/Group
@@ -420,22 +471,6 @@ Visualization Manager:
       Enabled: false
       Name: Lab
     - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /jackal1/jules_ros1_jackalplanner/contouring/path
-      Name: MarkerArray
-      Namespaces:
-        "": true
-      Queue Size: 100
-      Value: true
-    - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /jackalsimulator_planner/contouring/points
-      Name: MarkerArray
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: true
-    - Class: rviz/MarkerArray
       Enabled: false
       Marker Topic: /jackalsimulator_planner/gaussian_constraints
       Name: Gaussian Constraints
@@ -460,7 +495,7 @@ Visualization Manager:
           Scale: 1
           Value: true
         Value: false
-      Enabled: true
+      Enabled: false
       Keep: 100
       Name: Jackal1_Odometry
       Position Tolerance: 0.10000000149011612
@@ -477,7 +512,7 @@ Visualization Manager:
         Value: Arrow
       Topic: /jackal1/odometry/filtered
       Unreliable: false
-      Value: true
+      Value: false
     - Class: rviz/MarkerArray
       Enabled: false
       Marker Topic: /jackalsimulator_planner/warmstart_trajectory
@@ -614,6 +649,14 @@ Visualization Manager:
           Queue Size: 100
           Value: false
         - Class: rviz/MarkerArray
+          Enabled: true
+          Marker Topic: /jackal2/jules_ros1_jackalplanner/obstacle_prediction_lines
+          Name: Planner Obstacle Predictions Lines
+          Namespaces:
+            "": true
+          Queue Size: 100
+          Value: true
+        - Class: rviz/MarkerArray
           Enabled: false
           Marker Topic: /jackal2/jules_ros1_jackalplanner/obstacle_predictions
           Name: Planner Obstacle Predictions
@@ -640,13 +683,13 @@ Visualization Manager:
               Queue Size: 100
               Value: false
             - Class: rviz/MarkerArray
-              Enabled: true
+              Enabled: false
               Marker Topic: /jackal2/jules_ros1_jackalplanner/guidance_planner/graph
               Name: Graph
               Namespaces:
-                "": true
+                {}
               Queue Size: 100
-              Value: true
+              Value: false
             - Class: rviz/MarkerArray
               Enabled: false
               Marker Topic: /jackalsimulator_planner/guidance_planner/geometric_paths
@@ -695,7 +738,7 @@ Visualization Manager:
                 {}
               Queue Size: 100
               Value: false
-          Enabled: true
+          Enabled: false
           Name: T-MPC
         - Class: rviz/Group
           Displays:
@@ -753,6 +796,66 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        chassis_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_fender_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        front_right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mid_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        navsat_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rear_fender_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rear_left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rear_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        rear_right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: Jackal3_RobotModel
       Robot Description: /jackal3/robot_description
       TF Prefix: jackal3_tf
@@ -766,7 +869,7 @@ Visualization Manager:
           Marker Topic: /jackal3/jules_ros1_jackalplanner/planned_trajectory
           Name: Planned Trajectory
           Namespaces:
-            {}
+            "": true
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
@@ -774,7 +877,7 @@ Visualization Manager:
           Marker Topic: /jackal3/jules_ros1_jackalplanner/contouring/path
           Name: Reference Path
           Namespaces:
-            {}
+            "": true
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
@@ -795,12 +898,20 @@ Visualization Manager:
           Value: false
         - Class: rviz/MarkerArray
           Enabled: true
+          Marker Topic: /jackal3/jules_ros1_jackalplanner/obstacle_prediction_lines
+          Name: Obstacle_Prediction_Lines
+          Namespaces:
+            "": true
+          Queue Size: 100
+          Value: true
+        - Class: rviz/MarkerArray
+          Enabled: false
           Marker Topic: /jackal3/jules_ros1_jackalplanner/obstacle_predictions
           Name: Planner Obstacle Predictions
           Namespaces:
             {}
           Queue Size: 100
-          Value: true
+          Value: false
         - Class: rviz/MarkerArray
           Enabled: false
           Marker Topic: /jackalsimulator_planner/contouring/road_constraints
@@ -836,13 +947,13 @@ Visualization Manager:
               Queue Size: 100
               Value: false
             - Class: rviz/MarkerArray
-              Enabled: true
+              Enabled: false
               Marker Topic: /jackal3/jules_ros1_jackalplanner/guidance_planner/trajectories
               Name: Guidance Trajectories
               Namespaces:
                 {}
               Queue Size: 100
-              Value: true
+              Value: false
             - Class: rviz/MarkerArray
               Enabled: false
               Marker Topic: /jackalsimulator_planner/guidance_planner/obstacles_3d
@@ -1000,7 +1111,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 24.37775993347168
+      Distance: 20.427043914794922
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -1016,17 +1127,17 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6197969317436218
+      Pitch: 0.4747970700263977
       Target Frame: <Fixed Frame>
-      Yaw: 4.977175712585449
+      Yaw: 2.882185220718384
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: true
-  Height: 1011
+  Height: 949
   Hide Left Dock: true
-  Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000032100000359fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073000000003b00000359000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000011200000359fc0200000003fb0000000a00560069006500770073010000003b00000359000000a000fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000002000006b8000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073e0000003efc0100000002fb0000000800540069006d006501000000000000073e0000030700fffffffb0000000800540069006d00650100000000000004500000000000000000000006260000035900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Hide Right Dock: true
+  QMainWindow State: 000000ff00000000fd0000000400000000000003210000031bfc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073000000003b0000031b000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000011200000379fc0200000003fb0000000a00560069006500770073000000003b00000379000000a000fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000002000006b8000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004350000003efc0100000002fb0000000800540069006d00650100000000000004350000030700fffffffb0000000800540069006d00650100000000000004500000000000000000000004350000031b00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -1034,7 +1145,7 @@ Window Geometry:
   Tool Properties:
     collapsed: false
   Views:
-    collapsed: false
-  Width: 1854
-  X: 66
-  Y: 32
+    collapsed: true
+  Width: 1077
+  X: 0
+  Y: 0

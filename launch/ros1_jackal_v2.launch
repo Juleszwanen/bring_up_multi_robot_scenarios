@@ -55,7 +55,7 @@
   <rosparam command="load" file="$(find mpc_planner_jackalsimulator)/config/guidance_planner.yaml"/>
   <!-- <rosparam command="load" file="$(find scenario_module)/config/params.yaml"/> -->
   
-  <node pkg="mpc_planner_jackalsimulator" type="jules_ros1_jackalplanner" name="jules_ros1_jackalplanner" required="false" respawn="false" output="screen">
+  <node pkg="mpc_planner_jackalsimulator" type="jules_ros1_jackalplanner" name="jules_ros1_jackalplanner" required="true" respawn="false" output="log">
         <remap from="input/state_pose"      to="robot_state"/>
         <remap from="input/goal"            to="move_base_simple/goal"/>
         <remap from="input/reference_path"  to="roadmap/reference"/>
@@ -64,6 +64,7 @@
         <remap from="output/command"        to="cmd_vel"/>
         <!-- <remap from="output/pose"           to="pedestrian_simulator/robot_state"/> -->
         <remap from="feedback/collisions"   to="pedestrian_simulator/collision_detected"/>
+        <remap from="input/goal"            to="roadmap/goal/"/>
   </node>
 
 </launch>

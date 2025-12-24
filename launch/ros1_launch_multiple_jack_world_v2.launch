@@ -31,19 +31,26 @@
   </include> -->
   
   <!-- Option 2: Robot exchange scenario -->
+  <!-- <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_robot_exchange_scenario.launch">
+    <arg name="joystick" value="$(arg joystick)"/>
+  </include> -->
+
+  <!-- Option 3: Robot exchange scenario with a non communicating robot driving around -->
   <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_robot_exchange_scenario.launch">
     <arg name="joystick" value="$(arg joystick)"/>
   </include>
 
-  <!-- Option 3: Robot exchange scenario with a non communicating robot driving around -->
   <!-- <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_robot_exchange_with_cv_scenario.launch">
     <arg name="joystick" value="$(arg joystick)"/>
   </include> -->
-  
-
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bring_up_multi_robot_scenarios)/rviz/ros1_multi_robot.rviz" />
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bring_up_multi_robot_scenarios)/rviz/ros1_multi_robot.rviz" /> -->
   <!-- <node name="rviz" pkg="rviz" type="rviz" args="" output="screen"/> -->
   <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mpc_planner_jackalsimulator)/rviz/ros1_3d.rviz" output="screen"/> -->
 
   <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_reconfigure" output="log"/>
+
+  <node pkg="joy" name="jules_joy_node" type="joy_node">
+        <param name="_dev" value="/dev/input/js0"/> 
+        <!-- <remap from="/joy" to="/$(arg jackal_name)/jules_joy"/> -->
+  </node>
 </launch>

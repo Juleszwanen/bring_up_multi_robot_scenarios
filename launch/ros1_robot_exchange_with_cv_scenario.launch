@@ -5,8 +5,8 @@
   <arg name="config"    default="base"/>
   <arg name="env_runner" default="$(eval 'env_run' if not optenv('OS','unknown').lower().startswith('windows') else 'env_run.bat')" />
 
-  <env name="ROSCONSOLE_CONFIG_FILE"
-                      value="$(find bring_up_multi_robot_scenarios)/config/custom_rosconsole.conf"/>
+  <!-- <env name="ROSCONSOLE_CONFIG_FILE"
+                      value="$(find bring_up_multi_robot_scenarios)/config/custom_rosconsole.conf"/> -->
 
   <!-- Robot 1 -->
   <group ns="jackal1"> 
@@ -45,8 +45,8 @@
     <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_jackal_v2.launch">
       <arg name="tf_prefix" value="jackal2_tf"/>
       <arg name="var_jackal_name" value="jackal2"/>
-      <arg name="x" value="7"/>
-      <arg name="y" value="7"/>
+      <arg name="x" value="10"/>
+      <arg name="y" value="10"/>
       <arg name="yaw" value="3.92699"/>
       <arg name="roadmap_map" value="maps/open_space/robot_exchange_reversed.xml"/>
       <arg name="joystick" value="$(arg joystick)"/>
@@ -54,7 +54,7 @@
   </group>
 
   <!-- Robot 3: Starts at (-5, 5) and follow"-2.356"s perpendicular path (left to right) -->
-  <!-- <group ns="jackal3">
+  <group ns="jackal3">
     <arg name="robot_ns" default="/jackal3"/>
 
     <param name="robot_description"
@@ -68,13 +68,13 @@
     <include file="$(find bring_up_multi_robot_scenarios)/launch/ros1_jackal_v2.launch">
       <arg name="tf_prefix" value="jackal3_tf"/>
       <arg name="var_jackal_name" value="jackal3"/>
-      <arg name="x" value="0"/>
-      <arg name="y" value="5"/>
-      <arg name="yaw" value="0"/>  
-      <arg name="roadmap_map" value="maps/open_space/robot_perpendicular.xml"/>
+      <arg name="x"   value="0"/>
+      <arg name="y"   value="10"/>
+      <arg name="yaw" value="-0.7854"/>  
+      <arg name="roadmap_map" value="maps/open_space/robot_perpendicular_good.xml"/>
       <arg name="joystick" value="$(arg joystick)"/>
     </include>
-  </group> -->
+  </group>
 
   <!-- Robot 6: Starts at (-5, 5) and follow"-2.356"s perpendicular path (left to right) -->
   <group ns="jackal6">
@@ -88,13 +88,15 @@
                   'robot_namespace:=$(arg robot_ns)'
                   "/>
 
+<!-- <nd x="10"  y="0"     theta="2.3562 -->
+
     <include file="$(find guidance_planner_multi_robot_nodes)/launch/non_com_cv_robot.launch">
       <arg name="tf_prefix" value="jackal6_tf"/>
       <arg name="var_jackal_name" value="jackal6"/>
-      <arg name="x" value="2"/>
-      <arg name="y" value="5"/>
-      <arg name="yaw" value="0"/>  
-      <arg name="roadmap_map" value="maps/open_space/robot_perpendicular_CV.xml"/>
+      <arg name="x" value="10"/>
+      <arg name="y" value="0"/>
+      <arg name="yaw" value="2.3562"/>  
+      <arg name="roadmap_map" value="maps/open_space/robot_perpendicular_good_CV.xml"/>
       <arg name="joystick" value="$(arg joystick)"/>
     </include>
   </group>
